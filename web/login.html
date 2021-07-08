@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            margin: 0px auto;
+        }
+        a{
+            text-decoration: none;
+        }
+        .top {
+            border: 1px solid silver;
+            margin-top: 100px;
+            width: 400px;
+            height: 380px;
+            background-color: white;
+            background-image: url(./baidu.png);
+            background-repeat: no-repeat;
+            background-position: 20px 20px;
+        }
+        .down{
+            width: 400px;
+            height: 60px;
+            background-color: #f0f6ff;
+            background-image: url(./a.png);
+            background-repeat: no-repeat;
+            background-position: 140px 16px;
+            background-size: 24%;
+        }
+        h3 {
+            margin-left: 180px;
+            margin-top: 46px;
+        }
+        #username,#password{
+            margin-left: 40px;
+            margin-top: 20px;
+            height: 40px;
+            width: 320px;
+        }
+        #sub {
+            border: 0px;
+            width: 330px;
+            height: 40px;
+            margin-top: 50px;
+            margin-left: 40px;
+            background-color: #3f89ec;
+            font-size: 20px;
+            color: white;
+        }
+        #forget {
+            font-size: 12px;
+            color: #3f89ec;
+            margin-left: 40px;
+            margin-top: 10px;
+            height: 40px;
+            line-height: 40px;
+        }
+        #okay{
+            margin-left: 40px;
+            height: 60px;
+            line-height: 60px;
+            color: #3f89ec;
+        }
+        #register{
+            margin-left: 200px;
+            color: #3f89ec;
+        }
+    
+    </style>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function () {
+            $("#username").blur(function () {
+                //获取当前输入框的值
+                var value = $(this).val();
+                $.post("findUserServlet",{username:value},function (data) {
+                    var exists = data.userExist;
+                    var spanMsg = $("#s_username");
+                    if(exists){
+                        $("#username").css("border-color","red");
+                        spanMsg.css("color","red");
+                        spanMsg.html(data.msg)
+                    }else {
+                        $("#username").css("border-color","green");
+                        spanMsg.css("color","green");
+                        spanMsg.html(data.msg);
+                    }
+                },"json")
+            })
+        })
+    </script>
+</head>
+
+<body bgcolor="silver">
+    <div class="wild">
+        <div class="top">
+            <h3>用户名密码登录</h3>
+            <form action="stu">
+                <input type="hidden" name="method" value="login">
+                <input type="text" id="username" placeholder="手机/邮箱/用户名" name="username">
+                <span id="s_username"></span>
+                <input type="password" id="password" placeholder="密码" name="password">
+                <input type="submit" id="sub" value="登录">
+    
+                <a href="#" id="forget">忘记密码?</a>
+            </form>
+        </div>
+        <div class="down">
+            <a href="#" id="okay">扫码登录</a>
+            <a href="#" id="register">立即注册</a>
+        </div>
+    </div>
+</body>
+</html>
